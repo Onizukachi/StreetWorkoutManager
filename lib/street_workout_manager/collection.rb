@@ -33,8 +33,14 @@ module StreetWorkoutManager
       @items << item
     end
 
-    def save(path)
-      File.open(path, 'wb') { |f| f.write(Marshal.dump(self)) }
+    def save(filename)
+      File.open(filename, 'wb') { |f| f.write(Marshal.dump(self)) }
+    end
+
+    def self.load(filename)
+      return unless File.exist?(filename)
+
+      Marshal.load(File.open(filename))
     end
   end
 end
