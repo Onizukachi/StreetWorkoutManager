@@ -1,3 +1,7 @@
 require_relative './street_workout_manager/collection'
+require_relative './street_workout_manager/configuration'
+require_relative './street_workout_manager/csv_storage'
+require_relative './street_workout_manager/json_storage'
+require_relative './street_workout_manager/event_factory'
 require_relative './street_workout_manager/menu'
 require_relative './street_workout_manager/app'

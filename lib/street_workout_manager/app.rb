@@ -1,20 +1,19 @@
 module StreetWorkoutManager
   class App
-    DATA_FILENAME = 'data_dump'.freeze
-
     ACTIONS = [
       { title: 'Список упражнений', action: :event_list },
-      { title: 'Показать упражнение', action: :show_event },
+      { title: 'Показать упражнение', submenu: { title: "Выберите упражнение", action: :event_list } },
       { title: 'Добавить упражнение', action: :add_event },
-      { title: 'Редактировать упражнение', action: :edit_event },
-      { title: 'Удалить упражнение', action: :delete_event },
+      { title: 'Редактировать упражнение', submenu: { title: "Выберите упражнение", action: :event_list } },
+      { title: 'Удалить упражнение', submenu: { title: "Выберите упражнение", action: :event_list } },
       { title: 'Сохранить упражнения', action: :save_events }
     ].freeze
 
     attr_reader :data, :menu
 
     def initialize
-      @data = Collection.load(DATA_FILENAME) || Collection.new
+      @data = Collection.new('workout')
+      @data = @data.load || @data
       @menu = Menu.new(ACTIONS)
     end
 
@@ -25,19 +24,21 @@ module StreetWorkoutManager
     end
 
     def event_list
-      data
+      puts data
     end
 
     def show_event(idx)
-      data.show(idx)
+      puts data.show(idx)
     end
 
-    def add_event(event)
-      data.add(event)
+    def add_event
+      new_event = EventFactory.create
+      data.add(new_event)
     end
 
     def edit_event(idx)
-      data.show(idx)
+      updated_event = EventFactory.edit(data.show(idx))
+      data.update(idx, updated_event)
     end
 
     def delete_event(idx)
@@ -45,7 +46,7 @@ module StreetWorkoutManager
     end
 
     def save_events
-      data.save(DATA_FILENAME)
+      data.save
     end
   end
 end

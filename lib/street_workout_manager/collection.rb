@@ -2,27 +2,26 @@ require 'forwardable'
 
 module StreetWorkoutManager
   class Collection
-    class NotFoundError < StandardError; end
+    attr_reader :resource_name, :items
+    attr_accessor :storage
 
     extend Forwardable
     include Enumerable
 
     def_delegators :@items, :size
 
-    def initialize(data = [])
+    def initialize(resource_name, data = [], storage: JsonStorage.new)
+      @resource_name = resource_name
       @items = data
-    end
-
-    def each(&block)
-      @items.each(&block)
+      @storage = storage
     end
 
     def show(id)
       @items[id]
     end
 
-    def update(id, attrs)
-      @items[id] = attrs
+    def update(id, data)
+      @items[id] = data
     end
 
     def delete(id)
@@ -33,14 +32,12 @@ module StreetWorkoutManager
       @items << item
     end
 
-    def save(filename)
-      File.open(filename, 'wb') { |f| f.write(Marshal.dump(self)) }
+    def save
+      storage.save(resource_name, self)
     end
 
-    def self.load(filename)
-      return unless File.exist?(filename)
-
-      Marshal.load(File.open(filename))
+    def load
+      storage.load(resource_name)
     end
   end
 end

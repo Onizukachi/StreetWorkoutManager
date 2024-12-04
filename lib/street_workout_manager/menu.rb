@@ -1,17 +1,26 @@
 module StreetWorkoutManager
   class Menu
-    def initialize(actions)
-      @actions = actions
+    attr_reader :data
+
+    def initialize(data)
+      @data = data
     end
 
     def action
-      @actions.each_with_index do |action, index|
-        puts "#{index + 1}. #{action[:title]}"
+      data.each_with_index do |row, idx|
+        puts "#{idx + 1}. #{row[:title]}"
       end
 
-      user_choice = gets.chomp.to_i
+      choice = gets.chomp.to_i
 
-      @actions[user_choice - 1][:action]
+      chosen_action = data[choice - 1]
+
+      if chosen_action[:submenu]
+        puts chosen_action[:submenu][:title]
+        chosen_action[:action]
+        choice = gets.chomp.to_i
+
+      end
     end
   end
 end
