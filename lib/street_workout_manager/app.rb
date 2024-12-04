@@ -2,10 +2,10 @@ module StreetWorkoutManager
   class App
     ACTIONS = [
       { title: 'Список упражнений', action: :event_list },
-      { title: 'Показать упражнение', submenu: { title: "Выберите упражнение", action: :event_list } },
+      { title: 'Показать упражнение', action: :show_event },
       { title: 'Добавить упражнение', action: :add_event },
-      { title: 'Редактировать упражнение', submenu: { title: "Выберите упражнение", action: :event_list } },
-      { title: 'Удалить упражнение', submenu: { title: "Выберите упражнение", action: :event_list } },
+      { title: 'Редактировать упражнение', action: :edit_event },
+      { title: 'Удалить упражнение', action: :delete_event },
       { title: 'Сохранить упражнения', action: :save_events }
     ].freeze
 

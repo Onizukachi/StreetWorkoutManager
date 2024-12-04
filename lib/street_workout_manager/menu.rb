@@ -12,15 +12,7 @@ module StreetWorkoutManager
       end
 
       choice = gets.chomp.to_i
-
-      chosen_action = data[choice - 1]
-
-      if chosen_action[:submenu]
-        puts chosen_action[:submenu][:title]
-        chosen_action[:action]
-        choice = gets.chomp.to_i
-
-      end
+      data[choice - 1][:action]
     end
   end
 end
